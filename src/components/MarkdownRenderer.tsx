@@ -1,16 +1,32 @@
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import '../styles/global.css'
 
-interface Props {
-  content: string;
-  title: string;
-}
-
-export default function MarkdownRenderer({ content, title }: Props) {
+export default function CodeBlock({ content }: { content: string }) {
   return (
-    <article className="prose lg:prose-xl mx-auto">
-      <h1>{title}</h1>
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-    </article>
+    <ReactMarkdown
+      components={{
+        code({ node, inline, className, children, ...props }: any) {
+          const match = /language-(\w+)/.exec(className || "");
+          return !inline && match ? (
+            <SyntaxHighlighter
+              style={dracula}
+              language={match[1]}
+              PreTag="div"
+              {...props}
+            >
+              {String(children).replace(/\n$/, "")}
+            </SyntaxHighlighter>
+          ) : (
+            <code className={className} {...props}>
+              {children}
+            </code>
+          );
+        },
+      }}
+    >
+      {content}
+    </ReactMarkdown>
   );
 }

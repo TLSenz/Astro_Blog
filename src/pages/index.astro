@@ -1,4 +1,5 @@
 ---
+import '../styles/global.css'
 import {getCollection} from  'astro:content';
 
 const allPosts = await getCollection('blog');
@@ -12,16 +13,24 @@ const allPosts = await getCollection('blog');
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
 	</head>
-	<body>
-		<h1>My Blog</h1>
+        <body>
+
+                <div class="min-h-screen bg-black text-white flex flex-col items-center pt-20 space-y-6">
+                        <h1 class="flex items-center justify-center  h-32 text-xl">Blog</h1>
+                        <p class="flex items-center justify-center ">This is my Blog where i write about Tech and things that interest me.</p>
+                
                     <ul>
                         {allPosts.map(post => (
                          <li>
-                        <a href={`/blog/${post.slug}`}>
-                        {post.data.title} - {post.data.pubDate.toDateString()}
+                                 <a class="group transition-all duration-300 ease-in-out" href={`/blog/${post.slug}`}>
+                                        <span class="bg-left-bottom bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out pb-1">
+  
+                                                {post.data.title} - {post.data.pubDate.toDateString()}
+                                        </span>
                         </a>
                         </li>
                 ))}
-                </ul>
+                    </ul>
+                </div>
 	</body>
 </html>
