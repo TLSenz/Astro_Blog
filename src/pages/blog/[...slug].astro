@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import MarkdownRenderer from '../../components/MarkdownRenderer';
+
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug }, 
+    props: { entry },
+  }));
+}
+
+// 2. Get the entry data from props
+const { entry } = Astro.props;
+const { title } = entry.data;
+
+/* 
+  In Astro, 'entry.body' contains the raw Markdown string 
+  which we pass to the React component.
+*/
+---
+
+<html>
+  <body>
+    <nav><a href="/">Back to Home</a></nav>
+    <main>
+      <MarkdownRenderer 
+        client:load 
+        title={title} 
+        content={entry.body} 
+      />
+    </main>
+  </body>
+</html>
