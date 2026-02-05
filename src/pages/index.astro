@@ -11,12 +11,18 @@ const allPosts = await getCollection('blog');
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Thalium's Blog</title>
 	</head>
         <body>
+            <header class="fixed top-0 right-0 p-4 text-white">
+              <nav class="space-x-4">
+                <a class="hover:underline" href="/">Home</a>
+                <a class="hover:underline" href="/about">About</a>
+              </nav>
+            </header>
 
                 <div class="min-h-screen bg-black text-white flex flex-col items-center pt-20 space-y-6">
-                        <h1 class="flex items-center justify-center  h-32 text-xl">Blog</h1>
+                        <h1 class="flex items-center justify-center  h-32 text-xl">Thalium's Blog</h1>
                         <p class="flex items-center justify-center ">This is my Blog where i write about Tech and things that interest me.</p>
                 
                     <ul>
