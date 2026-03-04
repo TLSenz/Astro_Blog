@@ -3,6 +3,7 @@ title: "My New Post"
 pubDate: 2026-01-29
 description: "This is a post rendered via React in Astro"
 author: "T3 Chat"
+tags: ["react", "astro", "markdown"]
 ---
 
 # Hello!
