@@ -1,19 +1,43 @@
 ---
 import '../styles/global.css'
 ---
-<html>
-  <body class="text-white">
+<html lang="en">
+  <body class="bg-zinc-950 text-white">
     <header class="fixed top-0 right-0 p-4">
       <nav class="space-x-4">
         <a class="hover:underline" href="/">Home</a>
         <a class="hover:underline" href="/about">About</a>
       </nav>
     </header>
-    <main class="pt-20">
-      <h1>Welcome</h1>
-      <p>Welcome to my Blog. I am Thalium or TLSenZ, a SWE Apprentice from Switzerland. I like Coding, Linux and Computers. My Profile is very minimal, but i am working on expanding it. In the Futur i plan to start my own Blog. If you have anyhting to tell, give feedback or else, thalium@duck.com is my Email
+    <main class="mx-auto max-w-3xl px-6 pb-16 pt-24">
+      <h1 class="mb-6 text-4xl font-bold">About Me</h1>
 
-Favorite Linux Distro: Arch Favorite Programming Language: Rust</p>
+      <p class="mb-4 leading-relaxed text-zinc-200">
+        Hi, I&apos;m Thalium (TLSenZ), a software engineering apprentice from Switzerland.
+        I enjoy building things with code and spending time in the Linux ecosystem.
+      </p>
+
+      <p class="mb-8 leading-relaxed text-zinc-200">
+        This blog is where I share my learning journey, experiments, and projects.
+        The site is still growing, but I&apos;m actively improving it and will publish more posts over time.
+      </p>
+
+      <section class="mb-8 rounded-lg border border-zinc-800 bg-zinc-900/60 p-5">
+        <h2 class="mb-3 text-xl font-semibold">Quick Facts</h2>
+        <ul class="list-inside list-disc space-y-2 text-zinc-200">
+          <li><strong>Favorite Linux distro:</strong> Arch Linux</li>
+          <li><strong>Favorite programming language:</strong> Rust</li>
+        </ul>
+      </section>
+
+      <section class="rounded-lg border border-zinc-800 bg-zinc-900/60 p-5">
+        <h2 class="mb-3 text-xl font-semibold">Contact</h2>
+        <p class="text-zinc-200">
+          Want to share feedback or just say hi?
+          Reach me at
+          <a class="text-blue-300 hover:underline" href="mailto:thalium@duck.com">thalium@duck.com</a>.
+        </p>
+      </section>
     </main>
   </body>
 </html>
