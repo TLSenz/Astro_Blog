@@ -1,49 +1,51 @@
 ---
-import '../styles/global.css'
-import {getCollection} from  'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { DEFAULT_LOCALE, groupTranslations, parsePostId } from '../utils/i18n';
 
-const allPosts = await getCollection('blog');
+const groups = groupTranslations(await getCollection('blog'));
+const posts = [...groups.values()]
+  .map((group) => group.find((p) => parsePostId(p.id).locale === DEFAULT_LOCALE) ?? group[0])
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Thalium's Blog</title>
-	</head>
-        <body class="flex flex-col">
-            <header class="fixed top-0 right-0 p-4 text-white">
-              <nav class="space-x-4">
-                <a class="hover:underline" href="/">Home</a>
-                <a class="hover:underline" href="/about">About</a>
-              </nav>
-            </header>
 
-                <div class="bg-black text-white flex flex-col flex-1 items-center pt-20 space-y-6">
-                        <h1 class="flex items-center justify-center  h-32 text-xl">Thalium's Blog</h1>
-                        <p class="flex items-center justify-center ">This is my Blog where i write about Tech and things that interest me.</p>
-                
-                    <ul>
-                        {allPosts.map(post => (
-                         <li>
-                                 <a class="group transition-all duration-300 ease-in-out" href={`/blog/${post.slug}`}>
-                                        <span class="bg-left-bottom bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out pb-1">
-  
-                                                {post.data.title} - {post.data.pubDate.toDateString()}
-                                        </span>
-                        </a>
-                        </li>
-                ))}
-                    </ul>
-                </div>
-            <footer>
-                <div class="p-4 w-full flex justify-center mb-4">
-                    <a href="https://github.com/tlsenz">
-                        <img src=/social.png alt="Logo" class="w-8 h-8 "/>
-                    </a>
-                </div>
-            </footer>
-	</body>
-</html>
+<BaseLayout title="Thalium's Blog">
+  <div class="mx-auto w-full max-w-3xl px-4 pt-16 pb-12 sm:pt-24">
+    <section class="mb-10 space-y-3 text-center">
+      <h1 class="text-3xl font-bold sm:text-5xl">Thalium's Blog</h1>
+      <p class="text-white/70 sm:text-lg">
+        This is my Blog where i write about Tech and things that interest me.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="mb-4 text-xs font-semibold uppercase tracking-widest text-white/50">Posts</h2>
+      <ul>
+        {
+          posts.map((post) => (
+            <li>
+              <a
+                href={`/blog/${post.id}`}
+                class="group flex flex-col gap-1 rounded-md px-2 py-3 transition-colors hover:bg-white/5 sm:flex-row sm:items-baseline sm:justify-between"
+              >
+                <span class="bg-left-bottom bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat pb-0.5 transition-all duration-300 ease-out group-hover:bg-[length:100%_2px]">
+                  {post.data.title}
+                </span>
+                <time
+                  datetime={post.data.pubDate.toISOString()}
+                  class="shrink-0 text-sm text-white/50"
+                >
+                  {post.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
+                </time>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

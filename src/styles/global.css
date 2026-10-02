@@ -1,5 +1,4 @@
-@import "tailwindcss"; 
-@import url('https://fonts.googleapis.com/css2?family=Cuprum:ital,wght@0,400..700;1,400..700&display=swap');
+@import "tailwindcss";
 
 @plugin "@tailwindcss/typography";
 
@@ -16,7 +15,13 @@
     margin: 0;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   h1, h2, h3, h4 {
     color: var(--color-foreground);
+    text-wrap: balance;
   }
 }

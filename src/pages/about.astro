@@ -1,19 +1,82 @@
 ---
-import '../styles/global.css'
----
-<html>
-  <body class="text-white">
-    <header class="fixed top-0 right-0 p-4">
-      <nav class="space-x-4">
-        <a class="hover:underline" href="/">Home</a>
-        <a class="hover:underline" href="/about">About</a>
-      </nav>
-    </header>
-    <main class="pt-20">
-      <h1>Welcome</h1>
-      <p>Welcome to my Blog. I am Thalium or TLSenZ, a SWE Apprentice from Switzerland. I like Coding, Linux and Computers. My Profile is very minimal, but i am working on expanding it. In the Futur i plan to start my own Blog. If you have anyhting to tell, give feedback or else, thalium@duck.com is my Email
+import BaseLayout from '../layouts/BaseLayout.astro';
 
-Favorite Linux Distro: Arch Favorite Programming Language: Rust</p>
-    </main>
-  </body>
-</html>
+const interests = ['Arch Linux', 'Rust', 'Linux', 'Coding', 'Computers'];
+---
+
+<BaseLayout
+  title="About — Thalium's Blog"
+  description="About Thalium (TLSenZ), a software engineering apprentice from Switzerland who likes coding, Linux and computers."
+>
+  <div class="mx-auto w-full max-w-3xl px-4 pt-16 pb-12 sm:pt-24">
+    <header class="mb-10 space-y-3">
+      <h1 class="text-3xl font-bold sm:text-5xl">About Me</h1>
+      <p class="text-white/70 sm:text-lg">
+        Hi, I'm Thalium &mdash; also known as <span class="text-white">TLSenZ</span>.
+      </p>
+    </header>
+
+    <div class="space-y-10">
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold sm:text-2xl">Who I am</h2>
+        <p class="leading-relaxed text-white/80 sm:text-lg">
+          I'm a Software Engineering Apprentice from Switzerland. I like coding, Linux and
+          computers, and this blog is where I write about tech and things that interest me.
+        </p>
+        <p class="leading-relaxed text-white/80 sm:text-lg">
+          My profile is still very minimal, but I'm working on expanding it. In the future I plan
+          to write here regularly.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold sm:text-2xl">Things I like</h2>
+        <ul class="flex flex-wrap gap-2">
+          {
+            interests.map((interest) => (
+              <li class="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm text-white/80">
+                {interest}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="text-sm text-white/50">
+          Favorite Linux distro: <span class="text-white/80">Arch</span> &middot; Favorite
+          programming language: <span class="text-white/80">Rust</span>
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold sm:text-2xl">Get in touch</h2>
+        <p class="leading-relaxed text-white/80 sm:text-lg">
+          If you have anything to tell me &mdash; feedback, questions, or just to say hi &mdash;
+          feel free to reach out.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href="mailto:thalium@duck.com"
+            class="rounded-lg bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-white/85"
+          >
+            Email me
+          </a>
+          <a
+            href="https://github.com/tlsenz"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-lg border border-white/20 px-4 py-2 font-medium text-white transition-colors hover:bg-white/10"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://x.com/SvenZemp54154"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-lg border border-white/20 px-4 py-2 font-medium text-white transition-colors hover:bg-white/10"
+          >
+            X / Twitter
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

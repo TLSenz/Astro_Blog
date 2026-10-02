@@ -1,51 +1,94 @@
 ---
-import '../../styles/global.css'
-import { getCollection } from 'astro:content';
-import MarkdownRenderer from '../../components/MarkdownRenderer';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { DEFAULT_LOCALE, groupTranslations, parsePostId } from '../../utils/i18n';
 
-// 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog');
-  return blogEntries.map(entry => ({
-    params: { slug: entry.slug }, 
-    props: { entry },
-  }));
+  const posts = await getCollection('blog');
+  const groups = groupTranslations(posts);
+  return posts.map((entry) => {
+    const { base } = parsePostId(entry.id);
+    return {
+      params: { slug: entry.id },
+      props: { entry, translations: groups.get(base) ?? [entry] },
+    };
+  });
 }
 
-// 2. Get the entry data from props
-const { entry } = Astro.props;
-const { title, author, pubDate } = entry.data;
+const { entry, translations } = Astro.props;
+const { title, author, pubDate, description } = entry.data;
+const { locale } = parsePostId(entry.id);
+const { Content } = await render(entry);
 
-/* 
-  In Astro, 'entry.body' contains the raw Markdown string 
-  which we pass to the React component.
-*/
+const languages = [...translations].sort((a, b) => {
+  const la = parsePostId(a.id).locale;
+  const lb = parsePostId(b.id).locale;
+  if (la === DEFAULT_LOCALE) return -1;
+  if (lb === DEFAULT_LOCALE) return 1;
+  return la.localeCompare(lb);
+});
+
+const formattedDate = pubDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 ---
 
-<html>
-  <body class="text-white  min-h-screen flex flex-col  " >
-    <header class="fixed top-0 right-0 p-4">
-      <nav class="space-x-4">
-        <a class="hover:underline" href="/">Home</a>
-        <a class="hover:underline" href="/about">About</a>
-      </nav>
+<BaseLayout
+  title={`${title} — Thalium's Blog`}
+  description={description}
+  translations={languages.map((t) => ({
+    locale: parsePostId(t.id).locale,
+    url: `/blog/${t.id}`,
+  }))}
+>
+  <article class="mx-auto w-full max-w-3xl px-4 pt-16 pb-12 sm:pt-24">
+    <header class="mb-8 border-b border-white/10 pb-6">
+      <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <p class="text-sm text-white/50">
+          <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+          {author && <span> &middot; by {author}</span>}
+        </p>
+        {
+          languages.length > 1 && (
+            <nav aria-label="Languages" class="flex items-center gap-1 text-sm">
+              {languages.map((t) => (
+                <a
+                  href={`/blog/${t.id}`}
+                  hreflang={parsePostId(t.id).locale}
+                  aria-current={t.id === entry.id ? 'true' : undefined}
+                  class={`rounded-md px-2 py-1 transition-colors ${
+                    t.id === entry.id
+                      ? 'bg-white/10 text-white'
+                      : 'text-white/50 hover:text-white'
+                  }`}
+                >
+                  {parsePostId(t.id).locale.toUpperCase()}
+                </a>
+              ))}
+            </nav>
+          )
+        }
+      </div>
+      <h1 class="text-3xl font-bold sm:text-4xl">{title}</h1>
     </header>
 
-    <main class="flex-1 pt-20 ">
-      <MarkdownRenderer
-        client:load 
-        title={title}
-        author={author}
-        date={pubDate}
-        content={entry.body}
-      />
-    </main>
-  <footer>
-      <div class="p-4 w-full flex justify-center mb-4">
-          <a href="https://github.com/tlsenz">
-          <img src=/social.png alt="Logo" class="w-8 h-8 "/>
-          </a>
-      </div>
-  </footer>
-  </body>
-</html>
+    <div
+      class="prose prose-invert max-w-none text-base sm:text-lg
+        prose-headings:font-semibold
+        prose-img:rounded-lg
+        prose-pre:overflow-x-auto prose-pre:rounded-lg prose-pre:p-4
+        prose-code:font-normal prose-code:text-sm
+        prose-code:before:content-none prose-code:after:content-none"
+    >
+      <Content />
+    </div>
+
+    <div class="mt-10 border-t border-white/10 pt-6">
+      <a href="/" class="text-white/70 transition-colors hover:text-white hover:underline">
+        &larr; Back to all posts
+      </a>
+    </div>
+  </article>
+</BaseLayout>
