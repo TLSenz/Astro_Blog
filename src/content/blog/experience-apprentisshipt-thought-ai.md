@@ -5,7 +5,6 @@ description: "My Experience as a Application Developer Apprentice in the 3. Year
 author: "Thalium"
 ---
 
-# My Experience as an Application Developer Apprentice in the 3rd Year and Thoughts About AI
 
 After my 9th year of school, which everyone in Switzerland has to do, I started an apprenticeship in application development. I was 15 years old when I started and 14 when I signed the contract. This is nothing unusual. Most young people in my country do this. For context on when this was: the newest model released by OpenAI was GPT-4o. So why do I say this? In this blog post I mainly want to write about my experience with AI during my apprenticeship, and I want to start at the beginning.
 

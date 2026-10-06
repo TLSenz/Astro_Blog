@@ -5,7 +5,6 @@ description: "Meine Erfahrungen als Applikationsentwickler-Lernender im 3. Lehrj
 author: "Thalium"
 ---
 
-# Meine Erfahrungen als Applikationsentwickler-Lernender im 3. Lehrjahr und Gedanken zu KI
 
 Nach meinem 9. Schuljahr, das in der Schweiz alle absolvieren müssen, habe ich eine Lehre als Applikationsentwickler begonnen. Zu Beginn war ich 15 Jahre alt, den Lehrvertrag habe ich mit 14 unterschrieben. Das ist nichts Ungewöhnliches, die meisten jungen Leute in meinem Land machen das so. Damit man weiss, wann das war: Das neueste Modell von OpenAI war damals GPT-4o. Warum erzähle ich das? In diesem Blogbeitrag möchte ich hauptsächlich über meine Erfahrungen mit KI während meiner Lehre schreiben, und ich möchte ganz am Anfang beginnen.
 
