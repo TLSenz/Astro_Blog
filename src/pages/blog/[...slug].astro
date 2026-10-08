@@ -2,9 +2,11 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
 import { DEFAULT_LOCALE, groupTranslations, parsePostId } from '../../utils/i18n';
+import { estimateReadingTime, formatDate } from '../../utils/format';
+import { SITE_TITLE } from '../../consts';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
   const groups = groupTranslations(posts);
   return posts.map((entry) => {
     const { base } = parsePostId(entry.id);
@@ -19,6 +21,7 @@ const { entry, translations } = Astro.props;
 const { title, author, pubDate, description } = entry.data;
 const { locale } = parsePostId(entry.id);
 const { Content } = await render(entry);
+const minutes = estimateReadingTime(entry.body);
 
 const languages = [...translations].sort((a, b) => {
   const la = parsePostId(a.id).locale;
@@ -28,16 +31,13 @@ const languages = [...translations].sort((a, b) => {
   return la.localeCompare(lb);
 });
 
-const formattedDate = pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const formattedDate = formatDate(pubDate, locale);
 ---
 
 <BaseLayout
-  title={`${title} — Thalium's Blog`}
+  title={`${title} — ${SITE_TITLE}`}
   description={description}
+  type="article"
   translations={languages.map((t) => ({
     locale: parsePostId(t.id).locale,
     url: `/blog/${t.id}`,
@@ -49,6 +49,7 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
         <p class="text-sm text-white/50">
           <time datetime={pubDate.toISOString()}>{formattedDate}</time>
           {author && <span> &middot; by {author}</span>}
+          {minutes > 0 && <span> &middot; {minutes} min read</span>}
         </p>
         {
           languages.length > 1 && (

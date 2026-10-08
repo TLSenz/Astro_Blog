@@ -1,4 +1,5 @@
 export const SITE_TITLE = "Thalium's Blog";
+export const SITE_URL = 'https://blog.thethalium.ch';
 export const SITE_DESCRIPTION =
   "Thalium's Blog — writing about tech and things that interest me.";
 

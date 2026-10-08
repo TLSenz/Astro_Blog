@@ -7,7 +7,7 @@ import { DEFAULT_LOCALE, parsePostId } from '../utils/i18n';
 
 export async function GET(context: APIContext) {
   const posts = (await getCollection('blog'))
-    .filter((post) => parsePostId(post.id).locale === DEFAULT_LOCALE)
+    .filter((post) => !post.data.draft && parsePostId(post.id).locale === DEFAULT_LOCALE)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   const container = await AstroContainer.create();

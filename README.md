@@ -1,43 +1,40 @@
-# Astro Starter Kit: Minimal
+# Thalium's Blog
 
-```sh
-npm create astro@latest -- --template minimal
+A small, dark-themed personal blog built with [Astro](https://astro.build), Tailwind CSS and Cloudflare Workers. Live at [blog.thethalium.ch](https://blog.thethalium.ch).
+
+## Commands
+
+| Command           | Action                                    |
+| :---------------- | :---------------------------------------- |
+| `npm install`     | Install dependencies                      |
+| `npm run dev`     | Start local dev server at `localhost:4321`|
+| `npm run build`   | Build the production site to `./dist/`    |
+| `npm run preview` | Preview the build locally                 |
+| `npm run check`   | Type-check the project (`astro check`)    |
+
+## Writing a post
+
+Add a Markdown file to `src/content/blog/`. The filename (without `.md`) becomes the URL slug.
+
+```markdown
+---
+title: My Post Title
+pubDate: 2026-10-08
+description: One-sentence summary shown on the index page and in SEO/RSS.
+author: Thalium        # optional, defaults to "Thalium"
+tags: [linux, rust]    # optional
+draft: false           # optional, true hides it from the site and RSS
+---
+
+Your content here.
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Translations
 
-## 🚀 Project Structure
+Posts can be translated by creating a copy with a two-letter locale suffix, e.g.
+`my-post.md` (English, default) and `my-post.de.md` (German). Each language must be a
+separate file; posts with the same base slug are linked as translations of each other.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Deployment
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Deployed as a static site on Cloudflare Workers via `wrangler` (see `wrangler.jsonc`).
