@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import { formatDateShort } from '../utils/format';
+
+const notes = (await getCollection('notes'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 8);
+
+const rendered = await Promise.all(
+  notes.map(async (note) => ({ note, Content: (await render(note)).Content }))
+);
+---
+
+<section aria-labelledby="notes-heading" class="space-y-4">
+  <h2 id="notes-heading" class="font-mono text-xs font-semibold uppercase tracking-widest text-white/50">
+    <span class="text-accent">&gt;</span> Reading notes
+  </h2>
+
+  {
+    notes.length === 0 ? (
+      <p class="text-sm text-white/50">
+        Nothing yet. Articles I read and my notes on them will show up here.
+      </p>
+    ) : (
+      <ul class="space-y-5">
+        {rendered.map(({ note, Content }) => (
+          <li class="border-l border-white/20 pl-3">
+            <a
+              href={note.data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm font-medium text-white transition-colors hover:text-accent"
+            >
+              {note.data.title}
+            </a>
+            <p class="font-mono text-xs text-white/40">
+              <time datetime={note.data.pubDate.toISOString()}>
+                {formatDateShort(note.data.pubDate, 'en')}
+              </time>
+              {note.data.source && <span> &middot; {note.data.source}</span>}
+            </p>
+            <div class="prose prose-invert prose-sm mt-1 max-w-none text-white/70">
+              <Content />
+            </div>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>

@@ -22,7 +22,9 @@ const posts = [...groups.values()]
     </section>
 
     <section>
-      <h2 class="mb-4 text-xs font-semibold uppercase tracking-widest text-white/50">Posts</h2>
+      <h2 class="mb-4 font-mono text-xs font-semibold uppercase tracking-widest text-white/50">
+        <span class="text-accent">&gt;</span> Posts
+      </h2>
       <ul class="space-y-3">
         {
           posts.map((post) => (
@@ -32,7 +34,7 @@ const posts = [...groups.values()]
                 class="group flex flex-col gap-1 rounded-md px-2 py-3 transition-colors hover:bg-white/5"
               >
                 <span class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-                  <span class="bg-left-bottom bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat pb-0.5 transition-all duration-300 ease-out group-hover:bg-[length:100%_2px]">
+                  <span class="bg-left-bottom bg-gradient-to-r from-accent to-accent bg-[length:0%_2px] bg-no-repeat pb-0.5 transition-all duration-300 ease-out group-hover:bg-[length:100%_2px]">
                     {post.data.title}
                   </span>
                   <time

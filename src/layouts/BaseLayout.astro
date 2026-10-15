@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL, SOCIALS } from '../consts';
+import NowSidebar from '../components/NowSidebar.astro';
+import NotesSidebar from '../components/NotesSidebar.astro';
 
 interface Props {
   title: string;
@@ -71,16 +73,16 @@ const navItems = [
       <div class="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3">
         <a
           href="/"
-          class="text-sm font-medium text-white/80 transition-colors hover:text-white"
+          class="text-sm font-medium text-white/80 transition-colors hover:text-accent"
         >
-          {SITE_TITLE}
+          <span class="text-accent">$</span> {SITE_TITLE}
         </a>
         <nav class="flex items-center gap-1 text-sm sm:text-base" aria-label="Main navigation">
           {
             navItems.map((item) => (
               <a
                 href={item.href}
-                class="rounded-md px-3 py-2 hover:underline"
+                class="rounded-md px-3 py-2 transition-colors hover:text-accent aria-[current=page]:text-accent"
                 aria-current={item.current ? 'page' : undefined}
               >
                 {item.label}
@@ -92,7 +94,17 @@ const navItems = [
     </header>
 
     <main id="main" class="w-full flex-1">
-      <slot />
+      <div class="mx-auto flex w-full max-w-6xl flex-col gap-12 lg:flex-row lg:items-start lg:gap-10">
+        <aside class="order-2 w-full px-4 lg:sticky lg:top-24 lg:order-1 lg:w-56 lg:shrink-0 lg:px-0 lg:pt-14">
+          <NowSidebar />
+        </aside>
+        <div class="order-1 min-w-0 flex-1 lg:order-2">
+          <slot />
+        </div>
+        <aside class="order-3 w-full px-4 lg:sticky lg:top-24 lg:w-64 lg:shrink-0 lg:px-0 lg:pt-14">
+          <NotesSidebar />
+        </aside>
+      </div>
     </main>
 
     <footer class="mt-auto border-t border-white/10">
