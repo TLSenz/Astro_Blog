@@ -5,9 +5,15 @@
 @theme {
   --color-background: #000000;
   --color-foreground: #ffffff;
+  --color-accent: #6ee787;
 }
 
 @layer base {
+  ::selection {
+    background-color: var(--color-accent);
+    color: #000000;
+  }
+
   html, body {
     background-color: var(--color-background);
     color: var(--color-foreground);

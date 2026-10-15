@@ -34,7 +34,7 @@ const interests = ['Arch Linux', 'Rust', 'Linux', 'Coding', 'Computers'];
         <ul class="flex flex-wrap gap-2">
           {
             interests.map((interest) => (
-              <li class="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm text-white/80">
+              <li class="rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-sm text-white/80 transition-colors hover:border-accent hover:text-accent">
                 {interest}
               </li>
             ))
@@ -55,7 +55,7 @@ const interests = ['Arch Linux', 'Rust', 'Linux', 'Coding', 'Computers'];
         <div class="flex flex-wrap gap-3">
           <a
             href="mailto:thalium@duck.com"
-            class="rounded-lg bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-white/85"
+            class="rounded-lg bg-white px-4 py-2 font-medium text-black transition-colors hover:bg-accent"
           >
             Email me
           </a>
@@ -63,7 +63,7 @@ const interests = ['Arch Linux', 'Rust', 'Linux', 'Coding', 'Computers'];
             href="https://github.com/tlsenz"
             target="_blank"
             rel="noopener noreferrer"
-            class="rounded-lg border border-white/20 px-4 py-2 font-medium text-white transition-colors hover:bg-white/10"
+            class="rounded-lg border border-white/20 px-4 py-2 font-medium text-white transition-colors hover:border-accent hover:text-accent"
           >
             GitHub
           </a>
@@ -71,7 +71,7 @@ const interests = ['Arch Linux', 'Rust', 'Linux', 'Coding', 'Computers'];
             href="https://x.com/SvenZemp54154"
             target="_blank"
             rel="noopener noreferrer"
-            class="rounded-lg border border-white/20 px-4 py-2 font-medium text-white transition-colors hover:bg-white/10"
+            class="rounded-lg border border-white/20 px-4 py-2 font-medium text-white transition-colors hover:border-accent hover:text-accent"
           >
             X / Twitter
           </a>
