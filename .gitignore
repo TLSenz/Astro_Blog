@@ -20,5 +20,8 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# Learned Importer build output
+tools/learned-importer/build/
+
 # jetbrains setting folder
 .idea/

@@ -24,3 +24,10 @@ export function formatDateShort(date: Date, locale: string): string {
     day: 'numeric',
   });
 }
+
+export function formatMonthDay(date: Date, locale: string): string {
+  return date.toLocaleDateString(DATE_LOCALES[locale] ?? locale, {
+    month: 'short',
+    day: 'numeric',
+  });
+}

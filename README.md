@@ -29,6 +29,42 @@ draft: false           # optional, true hides it from the site and RSS
 Your content here.
 ```
 
+## Things I learned
+
+Short dated notes live in `src/content/learned/` and are listed at `/learned`. Each file is a
+Markdown note with frontmatter:
+
+```markdown
+---
+title: Short title of the thing I learned
+date: 2026-11-12
+summary: One sentence shown on the list page.   # optional
+tags: [linux, css]                              # optional
+source: https://example.com/reference           # optional
+draft: false                                    # optional
+---
+
+The note itself.
+```
+
+Notes are grouped by year on the index page and get their own page at
+`/learned/<filename>`. `src/content/learned/template.md` is an unpublished draft you can copy
+when writing a note by hand.
+
+### macOS importer
+
+`tools/learned-importer/` contains a small native SwiftUI app for adding notes. Build and
+install it with:
+
+```bash
+cd tools/learned-importer
+./build.sh
+```
+
+The app is installed to `~/Applications/Learned Importer.app`. Drop in a `.md` file, check the
+title and summary, and it writes the note to `src/content/learned/`. See
+[`tools/learned-importer/README.md`](tools/learned-importer/README.md) for details.
+
 ## Translations
 
 Posts can be translated by creating a copy with a two-letter locale suffix, e.g.

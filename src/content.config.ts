@@ -30,4 +30,20 @@ const notes = defineCollection({
   }),
 });
 
-export const collections = { blog, notes };
+const learned = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: "./src/content/learned",
+    generateId: ({ entry }) => entry.replace(/\.md$/, ""),
+  }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    summary: z.string().default(""),
+    tags: z.array(z.string()).default([]),
+    source: z.string().url().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, notes, learned };

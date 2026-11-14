@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { formatDate } from '../../utils/format';
+
+export async function getStaticPaths() {
+  const notes = (await getCollection('learned')).filter((note) => !note.data.draft);
+  return notes.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { title, date, summary, tags, source } = entry.data;
+const { Content } = await render(entry);
+const formattedDate = formatDate(date, 'en');
+---
+
+<BaseLayout
+  title={`${title} — Things I Learned`}
+  description={summary || `${title} — a note in Things I Learned.`}
+  type="article"
+>
+  <article class="mx-auto w-full max-w-3xl px-4 pt-16 pb-12 sm:pt-24">
+    <header class="mb-8 border-b border-white/10 pb-6">
+      <p class="text-sm text-white/50">
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+        <span> &middot; <a href="/learned" class="hover:text-white hover:underline">Things I Learned</a></span>
+      </p>
+      <h1 class="mt-3 text-3xl font-bold sm:text-4xl">{title}</h1>
+      {summary && <p class="mt-3 leading-relaxed text-white/60">{summary}</p>}
+      {
+        tags.length > 0 && (
+          <ul class="mt-4 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <li class="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-white/60">
+                #{tag}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    <div
+      class="prose prose-invert max-w-none text-base sm:text-lg
+        prose-headings:font-semibold
+        prose-img:rounded-lg
+        prose-pre:overflow-x-auto prose-pre:rounded-lg prose-pre:p-4
+        prose-code:font-normal prose-code:text-sm
+        prose-code:before:content-none prose-code:after:content-none"
+    >
+      <Content />
+    </div>
+
+    {
+      source && (
+        <p class="mt-8 text-sm">
+          <a
+            href={source}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-white/60 transition-colors hover:text-white hover:underline"
+          >
+            Source &nearr;
+          </a>
+        </p>
+      )
+    }
+
+    <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
+      <a href="/learned" class="text-white/70 transition-colors hover:text-white hover:underline">
+        &larr; All things I learned
+      </a>
+      <a href="/" class="text-sm text-white/40 transition-colors hover:text-white hover:underline">
+        Home
+      </a>
+    </div>
+  </article>
+</BaseLayout>

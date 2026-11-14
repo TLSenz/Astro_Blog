@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { formatMonthDay } from '../../utils/format';
+
+const notes = (await getCollection('learned'))
+  .filter((note) => !note.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const years = [...new Set(notes.map((note) => note.data.date.getFullYear()))].map((year) => ({
+  year,
+  notes: notes.filter((note) => note.data.date.getFullYear() === year),
+}));
+---
+
+<BaseLayout
+  title="Things I Learned — Thalium's Blog"
+  description="Short, dated notes about things I learned — mostly so future me can find them again."
+>
+  <div class="mx-auto w-full max-w-3xl px-4 pt-16 pb-12 sm:pt-24">
+    <header class="mb-10 space-y-3">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h1 class="text-3xl font-bold sm:text-5xl">Things I Learned</h1>
+        {
+          notes.length > 0 && (
+            <p class="text-sm tabular-nums text-white/40">
+              {notes.length} {notes.length === 1 ? 'note' : 'notes'}
+            </p>
+          )
+        }
+      </div>
+      <p class="max-w-2xl text-white/70 sm:text-lg">
+        Short, dated notes about things I figured out — small discoveries, fixes and ideas
+        that I want to remember.
+      </p>
+    </header>
+
+    {
+      notes.length === 0 ? (
+        <div class="rounded-lg border border-dashed border-white/15 px-6 py-12 text-center">
+          <p class="text-white/60">Nothing here yet.</p>
+          <p class="mt-2 text-sm text-white/40">
+            Add a Markdown file to <code class="text-white/60">src/content/learned/</code>, or
+            use the Learned Importer app.
+          </p>
+        </div>
+      ) : (
+        <div class="space-y-10">
+          {years.map(({ year, notes: yearNotes }) => (
+            <section>
+              <h2 class="mb-3 text-xs font-semibold uppercase tracking-widest text-white/50">
+                {year}
+              </h2>
+              <ul class="divide-y divide-white/10 border-y border-white/10">
+                {yearNotes.map((note) => (
+                  <li>
+                    <a
+                      href={`/learned/${note.id}`}
+                      class="group flex gap-4 px-2 py-4 transition-colors hover:bg-white/5 sm:gap-6"
+                    >
+                      <time
+                        datetime={note.data.date.toISOString()}
+                        class="w-12 shrink-0 pt-0.5 text-sm tabular-nums text-white/40"
+                      >
+                        {formatMonthDay(note.data.date, 'en')}
+                      </time>
+                      <span class="min-w-0 flex-1">
+                        <span class="block font-medium text-white/90 group-hover:underline">
+                          {note.data.title}
+                        </span>
+                        {note.data.summary && (
+                          <span class="mt-1 block text-sm leading-relaxed text-white/50">
+                            {note.data.summary}
+                          </span>
+                        )}
+                        {note.data.tags.length > 0 && (
+                          <span class="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+                            {note.data.tags.map((tag) => (
+                              <span class="text-xs text-white/35">#{tag}</span>
+                            ))}
+                          </span>
+                        )}
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        class="pt-0.5 text-white/25 transition-all group-hover:translate-x-0.5 group-hover:text-white"
+                      >
+                        &rarr;
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
